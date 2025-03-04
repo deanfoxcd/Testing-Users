@@ -24,4 +24,12 @@ test('render name and email for each user', () => {
   render(<UserList users={users} />);
 
   screen.logTestingPlaygroundURL();
+
+  for (let user of users) {
+    const name = screen.getByRole('cell', { name: user.name });
+    const email = screen.getByRole('cell', { name: user.email });
+
+    expect(name).toBeInTheDocument();
+    expect(email).toBeInTheDocument();
+  }
 });
