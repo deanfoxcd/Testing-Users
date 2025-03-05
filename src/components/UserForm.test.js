@@ -38,3 +38,25 @@ test('onUserAdd function gets called when form is submitted', () => {
   expect(mock).toHaveBeenCalled();
   expect(mock).toHaveBeenCalledWith({ name: 'dean', email: 'test@test.com' });
 });
+
+test('that textboxes empty after form submission', () => {
+  render(<UserForm onUserAdd={() => {}} />);
+
+  const nameInput = screen.getByRole('textbox', {
+    name: /name/i,
+  });
+  const emailInput = screen.getByRole('textbox', {
+    name: /email/i,
+  });
+
+  user.click(nameInput);
+  user.keyboard('dean');
+  user.click(emailInput);
+  user.keyboard('test@test.com');
+
+  const button = screen.getByRole('button');
+  user.click(button);
+
+  expect(nameInput).toHaveValue('');
+  expect(emailInput).toHaveValue('');
+});
